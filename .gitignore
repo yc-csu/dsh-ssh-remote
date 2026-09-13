@@ -1,3 +1,20 @@
 node_modules/
 *.log
 .DS_Store
+
+# ── 凭据 / 敏感文件：绝不入库 ──────────────────────────────
+# 机器注册表（含明文密码 / 私钥口令）
+machines.json
+# 环境变量与密钥材料
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+# 本地 registry / token 配置
+.npmrc
+.credentials.yaml

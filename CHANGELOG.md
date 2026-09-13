@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Docs: new [`INSTALL.md`](./INSTALL.md) — install & troubleshooting guide (profile discovery, bundle registration, proxy pitfalls, npm-vs-pnpm profiles, Windows prerequisites, post-install verification).
+- Docs: corrected the install commands in README / README.zh — `<profile>` must match the running harness (the desktop build uses `web-desktop`, not `web`), and the spec now uses explicit `git+https://` to avoid npm resolving `github:` as `ssh://`.
+- Chore: `.gitignore` now excludes credential files (`machines.json`, `.env*`, `*.pem`, `*.key`, `id_rsa*`, `.npmrc`, `.credentials.yaml`).
+
 ## 0.6.0 — 2026-08-16
 
 Fork of `dsh-remote` 0.5.4 published as `dsh-ssh-remote`:

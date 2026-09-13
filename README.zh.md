@@ -24,14 +24,24 @@
 ## 安装
 
 ```bash
-# 从本仓库（GitHub 源）安装
-dsh plugin --profile web add github:yc-csu/dsh-ssh-remote
+# <profile> 必须与你正在运行的 harness 一致：
+#   命令行形态（pnpm dsh web）→ web；桌面版 DSHEAC → web-desktop
+dsh plugin --profile <profile> add git+https://github.com/yc-csu/dsh-ssh-remote.git
 
 # 或本地目录
-dsh plugin --profile web add /path/to/dsh-ssh-remote
+dsh plugin --profile <profile> add /path/to/dsh-ssh-remote
 ```
 
-安装后重启 Web 服务（`pnpm dsh web`）生效。
+安装后需**完全重启** harness（不是刷新页面）生效，插件在启动时装载。
+
+两个最容易踩的坑：
+
+- `dsh plugin add` = 在 profile 目录跑 `pnpm add` **并**把包登记进 `dsh.profile.bundles`。若你手工用 pnpm/npm 装，必须自己补 `bundles`，否则插件永远不会被加载。
+- spec 建议用显式 `git+https://…`。`github:user/repo` 简写可能被解析成 `ssh://git@github.com`，没配 SSH key 的机器会直接失败。
+
+装到错误的 profile，是「安装成功但界面里什么都没有」的头号原因。
+
+详见 **[INSTALL.md](./INSTALL.md)**：如何定位目标 profile、代理陷阱、npm/pnpm 混合 profile、Windows 前提、装后验证。
 
 > 说明：harness Web UI 刻意只绑定 `127.0.0.1`；本插件是**主动外连**你维护的机器，不改 harness 核心。
 

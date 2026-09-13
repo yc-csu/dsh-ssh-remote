@@ -29,14 +29,24 @@ Manage several SSH machines, then pick a **remote workspace** and let the agent 
 ## Install
 
 ```bash
-# from this repository (GitHub source)
-dsh plugin --profile web add github:yc-csu/dsh-ssh-remote
+# <profile> must be the profile your harness is actually running:
+#   `web` for `pnpm dsh web`; the desktop build uses `web-desktop`
+dsh plugin --profile <profile> add git+https://github.com/yc-csu/dsh-ssh-remote.git
 
 # or from a local checkout
-dsh plugin --profile web add /path/to/dsh-ssh-remote
+dsh plugin --profile <profile> add /path/to/dsh-ssh-remote
 ```
 
-Then restart the web service (`pnpm dsh web`). The plugin activates on boot.
+Then **fully restart** the harness (not a page reload) — the plugin activates on boot.
+
+Two things that are easy to get wrong:
+
+- `dsh plugin add` runs `pnpm add` in the profile directory **and** registers the package in `dsh.profile.bundles`. If you install by hand with pnpm/npm, add the bundle entry yourself, otherwise the plugin will never load.
+- Prefer the explicit `git+https://…` spec: the `github:user/repo` shorthand can be resolved as `ssh://git@github.com` and fail on a machine without an SSH key.
+
+Installing into the wrong profile is the usual reason a plugin "installs fine" but never shows up.
+
+See **[INSTALL.md](./INSTALL.md)** (中文) for profile discovery, proxy pitfalls, npm-vs-pnpm profiles, Windows prerequisites and post-install verification.
 
 > Note: the harness Web UI intentionally binds `127.0.0.1`; this plugin connects **out** to machines you maintain — no changes to the harness core.
 
