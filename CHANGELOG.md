@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.6.2 — 2026-09-13
+
+- **Fix: single-slot priority collision with `@dsh-external/dsh-webui`.** Both plugins
+  filled `conversation.hero.workspace.directoryFlow` / `sidebar.workspaces.directoryFlow`
+  (SINGLE slots) at `priority: -100`. The client slots service accepts only one
+  registration per priority for a SINGLE slot and throws
+  `single slot "..." already has a registration at priority -100 (registered by dsh-ssh-remote)
+  — register at a different priority to shadow it (lowest renders)`, which made the *other*
+  plugin's whole client entry fail to load. The two entries now register at `priority: -90`,
+  so both plugins load: the AIO webui picker keeps rendering and this plugin's picker stays
+  registered but shadowed. Set both to `-110` to shadow webui and render this picker
+  (本机 + 远程 tabs) instead.
+- Chore: version 0.6.2 (the 0.6.1 fix is what surfaced this collision: the client half now
+  reaches its slot registrations instead of aborting at `ctx.workspaces`).
+
 ## 0.6.1 — 2026-09-13
 
 - **Fix (client half): the whole client plugin failed to load** with
