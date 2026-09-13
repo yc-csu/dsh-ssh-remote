@@ -1,6 +1,6 @@
 {
   "name": "dsh-ssh-remote",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Remote-work assistant for DeepSeek Harness: connect SSH (password or key), pick a remote workspace, operate on it with rw_connect / rw_exec / rw_list_dir / rw_read_file / rw_sync / rw_push tools, plus an in-GUI SSH terminal. Fork of dsh-remote with an interactive WebSocket terminal and key passphrase support.",
   "license": "MIT",
   "author": "yc-csu <18570399763@163.com>",

@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.6.1 — 2026-09-13
+
+- **Fix (client half): the whole client plugin failed to load** with
+  `failed to apply loader entry <id> (dsh-ssh-remote): cannot get property "workspaces" without inject`.
+  `apply()` read the (unused) `ctx.workspaces` service through a bare property access; the cordis
+  Context proxy refuses that read whenever the service is not yet active in the entry's fiber
+  (the plugin declares no `inject`), and the throw aborted `apply()`, so the settings section,
+  the directory picker and the 「远程终端」 entry never registered. The service is now read with
+  `ctx.get('workspaces')` only (non-throwing), which cannot abort `apply()`.
+- **Fix (host half): same pitfall in `/dsh-ssh-remote/local-pick`** — the bare `ctx.directoryPicker`
+  fallback was replaced by `ctx.get('directoryPicker')`, so a missing picker service returns the
+  friendly 400 instead of a 500 `cannot get property "directoryPicker" without inject`.
+- Chore: version 0.6.1.
+
 ## Unreleased
 
 - Docs: new [`INSTALL.md`](./INSTALL.md) — install & troubleshooting guide (profile discovery, bundle registration, proxy pitfalls, npm-vs-pnpm profiles, Windows prerequisites, post-install verification).
